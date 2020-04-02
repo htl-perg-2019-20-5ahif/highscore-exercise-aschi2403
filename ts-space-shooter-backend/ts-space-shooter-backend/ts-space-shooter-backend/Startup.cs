@@ -50,6 +50,8 @@ namespace ts_space_shooter_backend
                 app.UseDeveloperExceptionPage();
             }
 
+            UpdateDatabase(app);
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -62,6 +64,19 @@ namespace ts_space_shooter_backend
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private static void UpdateDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices
+                .GetRequiredService<IServiceScopeFactory>()
+                .CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetService<HighScoreContext>())
+                {
+                    context.Database.Migrate();
+                }
+            }
         }
     }
 }

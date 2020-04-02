@@ -11,9 +11,13 @@ services:
   backend:
     build: ./ts-space-shooter-backend\ts-space-shooter-backend\ts-space-shooter-backend
     container_name: backend
+    depends_on: 
+      - spaceShooterSQLServer
 
   game:
     build: ./ts-space-shooter-starter-09-points
     container_name: game
     ports:
       - 80:8080
+    depends_on: 
+      - backend
