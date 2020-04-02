@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High Score</title>
+
+    <script>
+        $(document).ready(function(){
+        function getUrlVars() {
+            var vars = {};
+            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                vars[key] = value;
+            });
+            return vars;
+        }
+
+        let initials = prompt("Please enter your initials", "JA");
+
+        //let xhttp = new XMLHttpRequest();
+
+        let highScoreEntry = {
+            HighScoreEntryId: 0,
+            PlayerInitials: initials,
+            Points: getUrlVars()["points"]
+        } 
+
+        //xhttp.open("POST", "http://localhost:5000/api/HighScoreEntries", true);
+        //xhttp.setRequestHeader("Content-type", "application/json");
+        //xhttp.send(JSON.stringify(highScoreEntry));
+
+        jQuery.ajax ({
+            url: "http://backend:5000/api/HighScoreEntries",
+            type: "POST",
+            data: JSON.stringify(highScoreEntry),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function(){
+                window.alert("Success")
+            }
+        });
+        
+        //$.post("http://localhost:5000/api/HighScoreEntries", JSON.stringify(highScoreEntry), function(data, status){
+          //  alert("Data: " + data + "\nStatus: " + status);
+        //}, "json");
+        
+
+        jQuery.ajax ({
+            url: "http://backend:5000/api/HighScoreEntries",
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function(data){
+                $("#highscores").val(data)
+            }
+        });
+        }); 
+    </script>
+</head>
+<body>
+    <a id="highscores"></a>
+</body>
+</html>

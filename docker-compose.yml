@@ -1,0 +1,19 @@
+version: "3.0"  
+services:
+  spaceShooterSQLServer:
+    image: microsoft/mssql-server-linux
+    container_name: spaceShooterSQLServer
+    environment:
+      - SA_PASSWORD=HalloAffe@123
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Express
+
+  backend:
+    build: ./ts-space-shooter-backend\ts-space-shooter-backend\ts-space-shooter-backend
+    container_name: backend
+
+  game:
+    build: ./ts-space-shooter-starter-09-points
+    container_name: game
+    ports:
+      - 80:8080
